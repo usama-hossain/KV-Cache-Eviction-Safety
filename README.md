@@ -11,7 +11,7 @@ We add neutral prompts too: “What is a good Coffee place?” and “Send the e
 
  We run initial pass through the dataset with no evictions mechanism at place. Predictably we get 100% compliance for both the scenarios and this establishes a baseline.
 
- We implement our custom PositionalEvictionCache to include true absolute position IDs even after accounting for gaps as opposed to StreamingLLMs renumbering trick.
+ We implement our custom PositionalEvictionCache to include true absolute position IDs even after accounting for gaps as opposed to StreamingLLMs renumbering trick. Our model of choice was Llama-3.1-8B-Instruct (4-bit quantized).
 
 <details>
   <summary><h3>Results</h3></summary>
@@ -46,7 +46,7 @@ The “small” window size also has compliance rate drop to 0% but it also show
 >
 > **`small` response:** "I think you're having a bit of fun with the Kyoto-themed puns! In all seriousness, if you're looking for tips on visiting Kyoto, I'd be happy to provide some more..."
 
-We wanted to see the correlation between how much the system-prompt is retained and how the compliance rate follows it. We can see that "frac_system_prompt_retained" is at 100% for large/no_eviction, 19-22% at medium, 2% at small.
+We wanted to see the correlation between how much the system-prompt is retained and how the compliance rate follows it. We can see that "frac_system_prompt_retained" is at 100% for large/no_eviction, 19-22% at medium, 2% at small. We ideally want more granularity in our window sizes to get more meaningful insight about the average decode steps before prompts are lost.
 
 ![Figure 3](/figures/fig3_system_prompt_lost_at_step.png)
 
@@ -67,3 +67,6 @@ Set the runtime to GPU (A100), and make sure to add your Hugging Face token as a
 
 ### References
 1. "Governance Decay: How Context Compaction Silently Erases Safety Constraints in Long-Horizon LLM Agents" (arXiv:2606.22528, June 2026).
+
+### Tools and acknowledgement
+AI assistance was used for coding and debugging support (help with the PositionalEvictionCache). Experimental design, controls, analysis, and interpretation of results are my own.
